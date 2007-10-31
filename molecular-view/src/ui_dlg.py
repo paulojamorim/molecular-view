@@ -75,7 +75,7 @@ def save_file(prnt, default_filename=""):
                "VRML 2.0 (*.vrml)|*.vrml"
     
     dlg = wx.FileDialog(prnt, message="Save file as ...", defaultDir=os.getcwd(), 
-            defaultFile=default_filename, wildcard=wildcard, style=wx.SAVE)
+            defaultFile=default_filename, wildcard=wildcard, style=wx.SAVE |wx.OVERWRITE_PROMPT)
     
     if dlg.ShowModal() == wx.ID_OK:
         if sys.platform == 'win32':
