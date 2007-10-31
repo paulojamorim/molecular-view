@@ -59,7 +59,8 @@ class controller():
                 
                 reader = pdb_reader()
                 reader.set_filename(path)
-                actor_list, self.polydata_list = reader.read()
+                
+                (actor_list, self.polydata_list)  = reader.read()
                 
                 viewer.set_actor_list(actor_list)
                 viewer.show()

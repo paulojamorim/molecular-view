@@ -71,9 +71,8 @@ def about(prnt):
     
 def save_file(prnt, default_filename=""):
     
-    wildcard = "VRML 2.0 (*.vrml)|*.vrml|"\
-               "STL(*.stl)|*.stl" 
-               
+    wildcard = "STL(*.stl)|*.stl|"\
+               "VRML 2.0 (*.vrml)|*.vrml"
     
     dlg = wx.FileDialog(prnt, message="Save file as ...", defaultDir=os.getcwd(), 
             defaultFile=default_filename, wildcard=wildcard, style=wx.SAVE)
