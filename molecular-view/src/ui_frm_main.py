@@ -21,7 +21,7 @@ import wx.gizmos
 def create(parent):
     return frm(parent)
 
-[wxID_FRM, wxID_FRMPANEL,  
+[wxID_FRM, wxID_FRMPANEL, 
 ] = [wx.NewId() for _init_ctrls in range(2)]
 
 [wxID_FRMMENU_HELPITEM_ABOUT, wxID_FRMMENU_HELPITEM_LICENSE, 
@@ -32,14 +32,66 @@ def create(parent):
 ] = [wx.NewId() for _init_coll_menu_file_Items in range(4)]
 
 class frm(wx.Frame):
+    def _init_sizers(self):
+        # generated method, don't edit
+        self.boxsizer = wx.BoxSizer(orient=wx.HORIZONTAL)
+
+        self._init_coll_boxsizer_Items(self.boxsizer)
+
+        self.SetSizer(self.boxsizer)
+
+
+    def _init_coll_boxsizer_Items(self, parent):
+        # generated method, don't edit
+
+        parent.AddWindow(self.panel, 1, border=0, flag=wx.GROW | wx.EXPAND)
+
     def _init_coll_menubar_Menus(self, parent):
         # generated method, don't edit
 
         parent.Append(menu=self.menu_file, title='File')
         parent.Append(menu=self.menu_help, title='Help')
 
-    def _init_coll_menu_file_Items(self, parent):
+    def _init_utils(self):
         # generated method, don't edit
+        self.menubar = wx.MenuBar()
+        self.menubar.SetAutoLayout(True)
+
+        self.menu_file = wx.Menu(title='')
+
+        self.menu_help = wx.Menu(title='')
+
+        self._init_coll_menubar_Menus(self.menubar)
+
+    def _init_ctrls(self, prnt):
+        # generated method, don't edit
+        wx.Frame.__init__(self, id=wxID_FRM, name='frm', parent=prnt,
+              pos=wx.Point(0, 0), size=wx.Size(1000, 700),
+              style=wx.DEFAULT_FRAME_STYLE, title='Molecular View')
+        self._init_utils()
+        self.SetMenuBar(self.menubar)
+        self.SetIcon(wx.Icon(os.path.abspath('../img/molecule.ico'),
+              wx.BITMAP_TYPE_ICO))
+
+        self.panel = wx.Panel(id=wxID_FRMPANEL, name='panel', parent=self,
+              pos=wx.Point(0, 0), size=wx.Size(992, 666),
+              style=wx.TAB_TRAVERSAL)
+        self.panel.SetBackgroundColour(wx.Colour(128, 128, 128))
+
+        self._init_sizers()
+
+    def __init__(self, parent):
+        from controller import controller
+        
+        self.controller = controller(self)
+        
+        self._init_ctrls(parent)        
+        self._init_menu_file(self.menu_file)
+        self._init_menu_help(self.menu_help)
+        self.init_evt()
+        #self.Maximize()
+
+    def _init_menu_file(self, parent):
 
         item = wx.MenuItem(parent, wxID_FRMMENU_FILEITEM_OPENFILE,
                             'Open...', 'Open PDB file')
@@ -60,12 +112,8 @@ class frm(wx.Frame):
                             'Exit Molecular View', 'Exit Molecular View')
         item.SetBitmap(wx.Bitmap(os.path.abspath('../img/exit.gif'), wx.BITMAP_TYPE_GIF))
         parent.AppendItem(item)
-        
 
-
-    def _init_coll_menu_help_Items(self, parent):
-        # generated method, don't edit
-
+    def _init_menu_help(self, parent):
 
         item = wx.MenuItem(parent, wxID_FRMMENU_HELPITEM_LICENSE,
                             'License', 'Software license')
@@ -76,42 +124,6 @@ class frm(wx.Frame):
                             'About Molecular View', 'About Molecular View')
         item.SetBitmap(wx.Bitmap(os.path.abspath('../img/molecule.gif'), wx.BITMAP_TYPE_GIF))
         parent.AppendItem(item)
-
-    def _init_utils(self):
-        # generated method, don't edit
-        self.menubar = wx.MenuBar()
-        self.menubar.SetAutoLayout(True)
-
-        self.menu_file = wx.Menu(title='')
-
-        self.menu_help = wx.Menu(title='')
-
-        self._init_coll_menubar_Menus(self.menubar)
-        self._init_coll_menu_file_Items(self.menu_file)
-        self._init_coll_menu_help_Items(self.menu_help)
-
-    def _init_ctrls(self, prnt):
-        # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_FRM, name='frm', parent=prnt,
-              pos=wx.Point(0, 0), size=wx.Size(1000, 700),
-              style=wx.DEFAULT_FRAME_STYLE, title='Molecular View')
-        self._init_utils()
-        self.SetMenuBar(self.menubar)
-        self.SetIcon(wx.Icon(os.path.abspath('../img/molecule.ico'),wx.BITMAP_TYPE_ICO))
-
-        self.panel = wx.Panel(id=wxID_FRMPANEL, name='panel', parent=self,
-              pos=wx.Point(23, 0), size=wx.Size(597, 409),
-              style=wx.TAB_TRAVERSAL)
-        self.panel.SetBackgroundColour(wx.Colour(128, 128, 128))
-
-    def __init__(self, parent):
-        from controller import controller
-        
-        self.controller = controller(self)
-        
-        self._init_ctrls(parent)        
-        self.init_evt()
-        #self.Maximize()
         
     def init_evt(self):
         self.Bind(wx.EVT_SIZE, self.resize)
