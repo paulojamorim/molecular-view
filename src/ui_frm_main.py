@@ -31,6 +31,16 @@ def create(parent):
  wxID_FRMMENU_FILEITEM_EXIT, wxID_FRMMENU_FILEITEM_OPENFILE, 
 ] = [wx.NewId() for _init_coll_menu_file_Items in range(4)]
 
+[wxID_FRMMENU_VIEWITEM_FULLSCREEN,wxID_FRMMENU_VIEWITEM_STEREOMODE,
+] = [wx.NewId() for _init_coll_menu_view_file_Items in range(2)]
+
+[wxID_FRMSUBMENU_VIEWITEM_STEREOOFF,wxID_FRMSUBMENU_VIEWITEM_STEREOCRYSTALEYES,
+wxID_FRMSUBMENU_VIEWITEM_STEREOINTERLACED, wxID_FRMSUBMENU_VIEWITEM_STEREOREDBLUE,
+wxID_FRMSUBMENU_VIEWITEM_STEREOLEFT, wxID_FRMSUBMENU_VIEWITEM_STEREORIGHT,
+wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN,
+] = [wx.NewId() for _init_coll_submenu_view_stereo_Items in range(7)]
+
+
 class frm(wx.Frame):
     def _init_sizers(self):
         # generated method, don't edit
@@ -50,6 +60,7 @@ class frm(wx.Frame):
         # generated method, don't edit
 
         parent.Append(menu=self.menu_file, title='File')
+        parent.Append(menu=self.menu_view, title='View')
         parent.Append(menu=self.menu_help, title='Help')
 
     def _init_utils(self):
@@ -58,7 +69,8 @@ class frm(wx.Frame):
         self.menubar.SetAutoLayout(True)
 
         self.menu_file = wx.Menu(title='')
-
+        self.menu_view = wx.Menu(title='')
+        self.submenu_stereo = wx.Menu(title='')
         self.menu_help = wx.Menu(title='')
 
         self._init_coll_menubar_Menus(self.menubar)
@@ -87,6 +99,8 @@ class frm(wx.Frame):
         
         self._init_ctrls(parent)        
         self._init_menu_file(self.menu_file)
+        self._init_submenu_view_stereo(self.submenu_stereo)
+        self._init_menu_view(self.menu_view)
         self._init_menu_help(self.menu_help)
         self.init_evt()
         #self.Maximize()
@@ -125,6 +139,33 @@ class frm(wx.Frame):
         item.SetBitmap(wx.Bitmap(os.path.abspath('../img/molecule.gif'), wx.BITMAP_TYPE_GIF))
         parent.AppendItem(item)
         
+    def _init_menu_view(self, parent):
+        
+        item = wx.MenuItem(parent, wxID_FRMMENU_VIEWITEM_FULLSCREEN,
+                           'Fullscreen (f)', 'Show main panel in fullscreen mode')
+        parent.AppendItem(item)
+        
+        parent.AppendMenu(help='Stereo mode', id=wxID_FRMMENU_VIEWITEM_STEREOMODE,
+                            submenu=self.submenu_stereo, text='Stereo mode')
+    
+    def _init_submenu_view_stereo(self, parent):
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOOFF,
+              kind=wx.ITEM_NORMAL, text='Off')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOCRYSTALEYES,
+              kind=wx.ITEM_NORMAL, text='CrystalEyes')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOINTERLACED,
+              kind=wx.ITEM_NORMAL, text='Interlaced')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOREDBLUE,
+              kind=wx.ITEM_NORMAL, text='RedBlue')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOLEFT,
+              kind=wx.ITEM_NORMAL, text='Left')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREORIGHT,
+              kind=wx.ITEM_NORMAL, text='Right')
+        parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN,
+              kind=wx.ITEM_NORMAL, text='Dresden')
+        
+        
+        
     def init_evt(self):
         self.Bind(wx.EVT_SIZE, self.resize)
            
@@ -141,6 +182,32 @@ class frm(wx.Frame):
               
         self.Bind(wx.EVT_MENU, self.show_about, id=wxID_FRMMENU_HELPITEM_ABOUT)
         self.Bind(wx.EVT_MENU, self.show_license, id=wxID_FRMMENU_HELPITEM_LICENSE)
+        
+        self.Bind(wx.EVT_MENU, self.fullscreen, id=wxID_FRMMENU_VIEWITEM_FULLSCREEN)
+        
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 0),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREOOFF)
+                    
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'CrystalEyes'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREOCRYSTALEYES)
+        
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'RedBlue'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREOREDBLUE)
+                    
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'Interlaced'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREOINTERLACED)
+                    
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'Left'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREOLEFT)
+
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'Right'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREORIGHT)
+                    
+        self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'Dresden'),
+                    id=wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN)
+                    
+        
+                    
         
     def resize(self, event):
         self.Layout()
@@ -181,3 +248,12 @@ class frm(wx.Frame):
         self.controller.show_license()
         event.Skip()
     
+    def set_stereo_mode(self, event, on=True, mode='RedBlue'):
+        self.controller.set_stereo_mode(on, mode)
+        event.Skip()
+        
+    def fullscreen(self, event=None, on=1):
+        self.ShowFullScreen(on)
+        self.controller.fullscreen()
+        if event:
+            event.Skip()

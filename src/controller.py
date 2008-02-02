@@ -24,6 +24,10 @@ class controller():
         self.polydata_list = []
         self.filename = ""
         
+    def set_stereo_mode(self, on, mode):
+        viewer = self.data_viewer
+        viewer.set_stereo_mode(on, mode)
+        
     def open_file(self):
         from data_reader import pdb_reader
         from data_viewer import pdb_viewer
@@ -136,3 +140,5 @@ class controller():
         license_frm.Show()
         
         
+    def fullscreen(self):
+        self.data_viewer.fullscreen()
