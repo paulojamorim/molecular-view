@@ -150,19 +150,19 @@ class frm(wx.Frame):
     
     def _init_submenu_view_stereo(self, parent):
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOOFF,
-              kind=wx.ITEM_NORMAL, text='Off')
+              kind=wx.ITEM_RADIO, text='Off')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOCRYSTALEYES,
-              kind=wx.ITEM_NORMAL, text='CrystalEyes')
+              kind=wx.ITEM_RADIO, text='CrystalEyes')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOINTERLACED,
-              kind=wx.ITEM_NORMAL, text='Interlaced')
+              kind=wx.ITEM_RADIO, text='Interlaced')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOREDBLUE,
-              kind=wx.ITEM_NORMAL, text='RedBlue')
+              kind=wx.ITEM_RADIO, text='RedBlue')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREOLEFT,
-              kind=wx.ITEM_NORMAL, text='Left')
+              kind=wx.ITEM_RADIO, text='Left')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREORIGHT,
-              kind=wx.ITEM_NORMAL, text='Right')
+              kind=wx.ITEM_RADIO, text='Right')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN,
-              kind=wx.ITEM_NORMAL, text='Dresden')
+              kind=wx.ITEM_RADIO, text='Dresden')
         
         
         
