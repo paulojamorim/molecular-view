@@ -142,8 +142,9 @@ class frm(wx.Frame):
     def _init_menu_view(self, parent):
         
         item = wx.MenuItem(parent, wxID_FRMMENU_VIEWITEM_FULLSCREEN,
-                           'Fullscreen (f)', 'Show main panel in fullscreen mode')
+                           'Fullscreen\tCtrl+F', 'Show main panel in fullscreen mode')
         parent.AppendItem(item)
+        parent.AppendSeparator()
         
         parent.AppendMenu(help='Stereo mode', id=wxID_FRMMENU_VIEWITEM_STEREOMODE,
                             submenu=self.submenu_stereo, text='Stereo mode')
@@ -254,6 +255,6 @@ class frm(wx.Frame):
         
     def fullscreen(self, event=None, on=1):
         self.ShowFullScreen(on)
-        self.controller.fullscreen()
+        self.controller.set_viewer_fullscreen()
         if event:
             event.Skip()

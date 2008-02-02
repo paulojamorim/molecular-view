@@ -38,7 +38,7 @@ class controller():
         load = self.load
 
         if not load:
-            viewer = pdb_viewer(prnt_frm.get_data_panel())
+            viewer = pdb_viewer(prnt_frm.get_data_panel(), self)
             self.data_viewer = viewer
         
         viewer = self.data_viewer
@@ -139,6 +139,8 @@ class controller():
         license_frm = mini_frm(self.ui_frame)
         license_frm.Show()
         
-        
-    def fullscreen(self):
+    def set_viewer_fullscreen(self):
         self.data_viewer.fullscreen()
+    
+    def set_frame_fullscreen(self, on=True):
+        self.ui_frame.fullscreen(on=on)

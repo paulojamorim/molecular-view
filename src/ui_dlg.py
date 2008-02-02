@@ -23,7 +23,7 @@ def open_file(prnt):
                    "All files (*.*)|*.*"
                    
         dlg = wx.FileDialog(prnt, message="Choose a file",
-                            defaultDir=os.getcwd(), defaultFile="",\
+                            defaultDir="", defaultFile="",\
                             wildcard=wildcard, style=wx.OPEN | wx.CHANGE_DIR)
                             
         if dlg.ShowModal() == wx.ID_OK:

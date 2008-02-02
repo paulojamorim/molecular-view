@@ -15,37 +15,36 @@
 
 class pdb_viewer():
     
-    def __init__(self, prnt):
+    def __init__(self, prnt, controller=None):
         from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
         from vtk import vtkRenderWindow, vtkRenderer, vtkInteractorStyleRubberBandPick
         import wx
         
         self.prnt = prnt
         self.fullscreen_on = 0
-        
-        #renwin = vtkRenderWindow()
-        #renwin.SetStereoTypeToCrystalEyes()
-        #renwin.StereoCapableWindowOn()
-        #renwin.StereoRenderOff()
 
         iren = wxVTKRenderWindowInteractor(self.prnt,-1,size = self.prnt.GetSize(), stereo=1)
-        iren.AddObserver("KeyPressEvent", self.key_down)
+        #iren.AddObserver("KeyPressEvent", self.key_down)
+        iren.AddObserver("CharEvent", self.key_down)
         iren.SetPosition((0,0))
         iren.SetDesiredUpdateRate(1)
         style = vtkInteractorStyleRubberBandPick() 
         iren.SetInteractorStyle(style)
 
-        #iren.SetRenderWindow(renwin)
-        iren.Enable(1)
-        
+        iren.Enable(1)        
         self.iren = iren
         
+        self.controller = controller
+        
     def key_down(self, event, event_name):
-        if (event.GetKeyCode() == 'f'):
+
+        if ((event.GetKeyCode() == 'f') or (event.GetKeyCode() == 'F')):
             if self.fullscreen_on:
-                self.prnt.GetParent().fullscreen(None, 0)
+                self.fullscreen(False)
+            
             else:
-                self.prnt.GetParent().fullscreen(None, 1)
+                self.fullscreen(True)
+            self.controller.set_frame_fullscreen(self.fullscreen_on)
             
     def fullscreen(self, on=True):
         self.fullscreen_on = on
