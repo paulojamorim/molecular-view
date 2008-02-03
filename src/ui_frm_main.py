@@ -142,7 +142,7 @@ class frm(wx.Frame):
     def _init_menu_view(self, parent):
         
         item = wx.MenuItem(parent, wxID_FRMMENU_VIEWITEM_FULLSCREEN,
-                           'Fullscreen\tCtrl+F', 'Show main panel in fullscreen mode')
+                           'Fullscreen\tV', 'Show main panel in fullscreen mode')
         parent.AppendItem(item)
         parent.AppendSeparator()
         

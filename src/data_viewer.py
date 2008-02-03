@@ -17,28 +17,36 @@ class pdb_viewer():
     
     def __init__(self, prnt, controller=None):
         from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
-        from vtk import vtkRenderWindow, vtkRenderer, vtkInteractorStyleRubberBandPick
+        from vtk import vtkRenderWindow, vtkRenderer
         import wx
+	import sys
         
         self.prnt = prnt
         self.fullscreen_on = 0
+        self.controller = controller
 
-        iren = wxVTKRenderWindowInteractor(self.prnt,-1,size = self.prnt.GetSize(), stereo=1)
-        #iren.AddObserver("KeyPressEvent", self.key_down)
-        iren.AddObserver("CharEvent", self.key_down)
+
+        iren = wxVTKRenderWindowInteractor(prnt,-1,size = prnt.GetSize())
+	iren.AddObserver("CharEvent", self.key_down)
         iren.SetPosition((0,0))
-        iren.SetDesiredUpdateRate(1)
-        style = vtkInteractorStyleRubberBandPick() 
-        iren.SetInteractorStyle(style)
+        
+	if (sys.platform == 'linux2'):
+	    iren.Show(1)
+            iren.Render()
+	else: #elif (sys.plaform == )
+	    from vtk import vtkInteractorStyleRubberBandPick
+            style = vtkInteractorStyleRubberBandPick() 
+            iren.SetInteractorStyle(style)
+	    iren.SetDesiredUpdateRate(1)
+            iren.Enable(1)
 
-        iren.Enable(1)        
         self.iren = iren
         
-        self.controller = controller
+
         
     def key_down(self, event, event_name):
 
-        if ((event.GetKeyCode() == 'f') or (event.GetKeyCode() == 'F')):
+        if ((event.GetKeyCode() == 'v') or (event.GetKeyCode() == 'V')):
             if self.fullscreen_on:
                 self.fullscreen(False)
             
