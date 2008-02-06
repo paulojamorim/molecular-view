@@ -27,6 +27,10 @@ class pdb_viewer():
 
         iren = wxVTKRenderWindowInteractor(prnt,-1,size = prnt.GetSize())
         iren.SetPosition((0,0))
+	
+	renwin = iren.GetRenderWindow()
+        renwin.StereoCapableWindowOn()
+        renwin.StereoRenderOff()
         
         if (sys.platform == 'linux2'):
             iren.AddObserver("CharEvent", self.key_down)
@@ -37,12 +41,6 @@ class pdb_viewer():
             style = vtkInteractorStyleRubberBandPick() 
             iren.SetInteractorStyle(style)
             iren.SetDesiredUpdateRate(1)
-            
-            renwin = iren.GetRenderWindow()
-            renwin.StereoCapableWindowOn()
-            renwin.StereoRenderOn()
-            iren.SetPosition((0,0))
-
             iren.Enable(1)
         else:
             print "Check OS behaviour to determine how renderer and fullscreen will work on data_viewer"
@@ -72,6 +70,7 @@ class pdb_viewer():
         #iren.Render()
         
         if on:
+            iren.GetRenderWindow().StereoRenderOn()
             exec("iren.GetRenderWindow().SetStereoTypeTo"+mode+"()")
         else:
             iren.GetRenderWindow().StereoRenderOff()
