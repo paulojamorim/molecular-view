@@ -37,6 +37,12 @@ class pdb_viewer():
             style = vtkInteractorStyleRubberBandPick() 
             iren.SetInteractorStyle(style)
             iren.SetDesiredUpdateRate(1)
+            
+            renwin = iren.GetRenderWindow()
+            renwin.StereoCapableWindowOn()
+            renwin.StereoRenderOn()
+            iren.SetPosition((0,0))
+
             iren.Enable(1)
         else:
             print "Check OS behaviour to determine how renderer and fullscreen will work on data_viewer"
@@ -56,13 +62,20 @@ class pdb_viewer():
         "RedBlue", "Interlaced", "Left", "Right", "Dresden"]
         """
         iren = self.iren
-        renwin = iren.GetRenderWindow()
-        if on:
-            renwin.StereoRenderOn()
-            exec("renwin.SetStereoTypeTo"+mode+"()")
-        else:
-            renwin.StereoRenderOff()
+        #renwin = iren.GetRenderWindow()
+        #if on:
+        #    renwin.StereoRenderOn()
+        #    exec("renwin.SetStereoTypeTo"+mode+"()")
+        #else:
+        #    renwin.StereoRenderOff()
             
+        #iren.Render()
+        
+        if on:
+            exec("iren.GetRenderWindow().SetStereoTypeTo"+mode+"()")
+        else:
+            iren.GetRenderWindow().StereoRenderOff()
+    
         iren.Render()
         
     def set_actor_list(self, actor_list=[]):
