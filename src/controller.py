@@ -142,5 +142,5 @@ class controller():
     def set_viewer_fullscreen(self):
         self.data_viewer.set_fullscreen_mode()
     
-    def set_frame_fullscreen(self, on=True):
+    def set_frame_fullscreen(self, on):
         self.ui_frame.set_fullscreen_mode(on=on)

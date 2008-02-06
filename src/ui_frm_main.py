@@ -250,12 +250,12 @@ class frm(wx.Frame):
         self.controller.set_stereo_mode(on, mode)
         event.Skip()
         
-    def set_fullscreen_mode(self, event=None):
+    def set_fullscreen_mode(self, event=None, on=True):
         import sys
         if sys.platform == 'win32':
             self.fullscreen_on = not self.fullscreen_on
         elif sys.platform == 'linux2':
-            self.fullscreen_on = True
+            self.fullscreen_on = on
         else:
             print "Check OS behaviour to determine how fullscreen will work on ui_frm_main" 
         
