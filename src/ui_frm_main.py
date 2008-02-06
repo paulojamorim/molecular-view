@@ -104,6 +104,7 @@ class frm(wx.Frame):
         self._init_menu_help(self.menu_help)
         self.init_evt()
         #self.Maximize()
+        self.fullscreen_on = 0
 
     def _init_menu_file(self, parent):
 
@@ -164,9 +165,7 @@ class frm(wx.Frame):
               kind=wx.ITEM_RADIO, text='Right')
         parent.Append(help='', id=wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN,
               kind=wx.ITEM_RADIO, text='Dresden')
-        
-        
-        
+                
     def init_evt(self):
         self.Bind(wx.EVT_SIZE, self.resize)
            
@@ -184,7 +183,7 @@ class frm(wx.Frame):
         self.Bind(wx.EVT_MENU, self.show_about, id=wxID_FRMMENU_HELPITEM_ABOUT)
         self.Bind(wx.EVT_MENU, self.show_license, id=wxID_FRMMENU_HELPITEM_LICENSE)
         
-        self.Bind(wx.EVT_MENU, self.fullscreen, id=wxID_FRMMENU_VIEWITEM_FULLSCREEN)
+        self.Bind(wx.EVT_MENU, self.set_fullscreen_mode, id=wxID_FRMMENU_VIEWITEM_FULLSCREEN)
         
         self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 0),
                     id=wxID_FRMSUBMENU_VIEWITEM_STEREOOFF)
@@ -206,9 +205,7 @@ class frm(wx.Frame):
                     
         self.Bind(wx.EVT_MENU, lambda e, s = self:self.set_stereo_mode(e, 1, 'Dresden'),
                     id=wxID_FRMSUBMENU_VIEWITEM_STEREODRESDEN)
-                    
-        
-                    
+
         
     def resize(self, event):
         self.Layout()
@@ -253,8 +250,16 @@ class frm(wx.Frame):
         self.controller.set_stereo_mode(on, mode)
         event.Skip()
         
-    def fullscreen(self, event=None, on=1):
-        self.ShowFullScreen(on)
-        self.controller.set_viewer_fullscreen()
+    def set_fullscreen_mode(self, event=None):
+        import sys
+        if sys.platform == 'win32':
+            self.fullscreen_on = not self.fullscreen_on
+        elif sys.platform == 'linux2':
+            self.fullscreen_on = True
+        else:
+            print "Check OS behaviour to determine how fullscreen will work on ui_frm_main" 
+        
+        self.ShowFullScreen(self.fullscreen_on)
         if event:
+            self.controller.set_viewer_fullscreen()
             event.Skip()

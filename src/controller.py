@@ -140,7 +140,7 @@ class controller():
         license_frm.Show()
         
     def set_viewer_fullscreen(self):
-        self.data_viewer.fullscreen()
+        self.data_viewer.set_fullscreen_mode()
     
     def set_frame_fullscreen(self, on=True):
-        self.ui_frame.fullscreen(on=on)
+        self.ui_frame.set_fullscreen_mode(on=on)

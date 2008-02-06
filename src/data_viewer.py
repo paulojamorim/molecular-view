@@ -19,44 +19,37 @@ class pdb_viewer():
         from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
         from vtk import vtkRenderWindow, vtkRenderer
         import wx
-	import sys
+        import sys
         
         self.prnt = prnt
         self.fullscreen_on = 0
         self.controller = controller
 
-
         iren = wxVTKRenderWindowInteractor(prnt,-1,size = prnt.GetSize())
-	iren.AddObserver("CharEvent", self.key_down)
         iren.SetPosition((0,0))
         
-	if (sys.platform == 'linux2'):
-	    iren.Show(1)
+        if (sys.platform == 'linux2'):
+            iren.AddObserver("CharEvent", self.key_down)
+            iren.Show(1)
             iren.Render()
-	else: #elif (sys.plaform == )
-	    from vtk import vtkInteractorStyleRubberBandPick
+        elif (sys.platform == 'win32'):
+            from vtk import vtkInteractorStyleRubberBandPick
             style = vtkInteractorStyleRubberBandPick() 
             iren.SetInteractorStyle(style)
-	    iren.SetDesiredUpdateRate(1)
+            iren.SetDesiredUpdateRate(1)
             iren.Enable(1)
+        else:
+            print "Check OS behaviour to determine how renderer and fullscreen will work on data_viewer"
 
         self.iren = iren
         
-
-        
     def key_down(self, event, event_name):
-
         if ((event.GetKeyCode() == 'v') or (event.GetKeyCode() == 'V')):
-            if self.fullscreen_on:
-                self.fullscreen(False)
-            
-            else:
-                self.fullscreen(True)
+            self.fullscreen_on = not self.fullscreen_on
             self.controller.set_frame_fullscreen(self.fullscreen_on)
             
-    def fullscreen(self, on=True):
+    def set_fullscreen_mode(self, on=True):
         self.fullscreen_on = on
-        
         
     def set_stereo_mode(self, on=True, mode="CrystalEyes"):
         """set_stereo_mode(on = [_True_, False], type = [_"CrystalEyes"_, 
