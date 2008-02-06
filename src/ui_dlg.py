@@ -49,7 +49,7 @@ def about(prnt):
     
     info = wx.AboutDialogInfo()
     info.Name = "Molecular View"
-    info.Version = "0.0.1 beta"
+    info.Version = "0.0.2 beta"
     info.Copyright = "(C) 2007 Tatiana Al-Chueyr Pereira Martins"
     info.Description = wordwrap(
         "Molecular View program is a software program that shows 3D models "
@@ -59,7 +59,7 @@ def about(prnt):
         "files, so the user can build up Molecular Rapid Prototyping physical "
         "models.",
         350, wx.ClientDC(prnt))
-    info.WebSite = ("http://www.softwarepublico.gov.br", "InVesalius Community")
+    info.WebSite = ("http://code.google.com/p/molecular-view/", "Molecular View Website")
     info.Developers = [ "Tatiana Al-Chueyr Pereira Martins",
                         "\nPaulo Henrique Junqueira Amorim",
                         "\nFelipe Faria de Souza" ]

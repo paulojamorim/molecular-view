@@ -60,15 +60,6 @@ class pdb_viewer():
         "RedBlue", "Interlaced", "Left", "Right", "Dresden"]
         """
         iren = self.iren
-        #renwin = iren.GetRenderWindow()
-        #if on:
-        #    renwin.StereoRenderOn()
-        #    exec("renwin.SetStereoTypeTo"+mode+"()")
-        #else:
-        #    renwin.StereoRenderOff()
-            
-        #iren.Render()
-        
         if on:
             iren.GetRenderWindow().StereoRenderOn()
             exec("iren.GetRenderWindow().SetStereoTypeTo"+mode+"()")
