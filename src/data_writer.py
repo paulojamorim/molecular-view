@@ -67,4 +67,33 @@ class stl_writer():
         stl_bin.SetFileType(2) # sets binary and not ascii mode
         stl_bin.Write()
         
+class image_writer():
+    
+    def __init__(self):
+        self.filename = ""
+        self.ren = None
+        self.mode = "JPEG"
+        
+    def set_filename(self, filename):
+        self.filename = filename
+        
+    def set_input(self, renderer):
+        self.ren = renderer
+
+    def set_mode(self, mode):
+        self.mode = mode
+        
+    def write(self):
+        from vtk import vtkWindowToImageFilter
+        from vtk import vtkPostScriptWriter, vtkJPEGWriter, vtkBMPWriter,vtkPNGWriter,vtkTIFFWriter
+        
+        # capture what is being shown on renderer
+        win_to_img = vtkWindowToImageFilter()
+        win_to_img.SetInput(self.ren)
+        
+        # write data to file
+        writer = eval("vtk"+self.mode+"Writer()")
+        writer.SetInput(win_to_img.GetOutput())
+        writer.SetFileName(self.filename)
+        writer.Write()
         

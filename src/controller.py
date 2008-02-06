@@ -77,7 +77,7 @@ class controller():
 
     def export_file(self):
         import ui_dlg
-        from data_writer import vrml_writer, stl_writer
+        from data_writer import vrml_writer, stl_writer, image_writer
         
         viewer = self.data_viewer
         frame = self.ui_frame
@@ -90,6 +90,7 @@ class controller():
             if answer:
                 filename = answer[0]
                 filetype = answer[1]
+                print "filetype:", filetype
                 
                 if filetype == "vrml":
                     writer = vrml_writer()
@@ -97,6 +98,10 @@ class controller():
                 elif filetype == "stl":
                     writer = stl_writer()
                     writer.set_input(self.polydata_list)
+                else:
+                    writer = image_writer()
+                    writer.set_mode(filetype)
+                    writer.set_input(viewer.get_render_window())
                     
                 writer.set_filename(filename)
                 writer.write()

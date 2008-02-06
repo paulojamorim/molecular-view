@@ -72,9 +72,14 @@ def about(prnt):
 def save_file(prnt, default_filename=""):
     
     wildcard = "STL(*.stl)|*.stl|"\
-               "VRML 2.0 (*.vrml)|*.vrml"
+               "VRML 2.0 (*.vrml)|*.vrml|"\
+               "JPEG (*.jpg)|*.jpg|"\
+               "PNG (*.png)|*.png|"\
+               "BITMAP (*.bmp)|*.bmp|"\
+               "TIFF (*.tiff)|*.tiff|"\
+               "PostScript (*.ps)|*.ps"
     
-    dlg = wx.FileDialog(prnt, message="Save file as ...", defaultDir=os.getcwd(), 
+    dlg = wx.FileDialog(prnt, message="Save file as ...", defaultDir="", 
             defaultFile=default_filename, wildcard=wildcard, style=wx.SAVE |wx.OVERWRITE_PROMPT)
     
     if dlg.ShowModal() == wx.ID_OK:
@@ -86,10 +91,8 @@ def save_file(prnt, default_filename=""):
         filename = filedir+dlg.GetFilename()
         type = dlg.GetFilterIndex()
         
-        if (type == 0):
-            filetype = "stl"
-        elif (type == 1):
-            filetype = "vrml"
+        dict_filetype = {0:"stl", 1:"vrml", 2:"JPEG", 3:"PNG", 4:"BMP", 5:"TIFF", 6:"PostScript"}
+        filetype = dict_filetype[type]
             
         return filename, filetype
     

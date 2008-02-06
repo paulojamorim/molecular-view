@@ -69,7 +69,6 @@ class pdb_viewer():
         iren.Render()
         
     def set_actor_list(self, actor_list=[]):
-        from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
         from vtk import vtkRenderWindow, vtkRenderer
 
         iren = self.iren
